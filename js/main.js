@@ -48,7 +48,6 @@ function generateRandomComment(comments) {
   var max = comments.length - 1;
   var countComments = getRandomInteger(1, 5);
 
-
   for (var i = 0; i < countComments; i++) {
     var commentNumber = getRandomInteger(0, max);
     var avatarNumber = getRandomInteger(1, 6);
@@ -60,7 +59,6 @@ function generateRandomComment(comments) {
   }
 
   return listComments;
-
 }
 
 function generatePictures(quantity) {
