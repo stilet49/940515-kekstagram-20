@@ -47,10 +47,11 @@ function generateRandomComment(comments) {
   var listComments = [];
   var max = comments.length - 1;
   var countComments = getRandomInteger(1, 5);
-  var avatarNumber = getRandomInteger(1, 6);
+
 
   for (var i = 0; i < countComments; i++) {
     var commentNumber = getRandomInteger(0, max);
+    var avatarNumber = getRandomInteger(1, 6);
     listComments.push({
       avatar: generateAvatarURL(avatarNumber),
       message: comments[commentNumber],
