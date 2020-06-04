@@ -101,10 +101,80 @@ function addPhotoToPictures(pictures, target, template) {
   target.appendChild(fragment);
 }
 
+function renderComment(comment, template) {
+  var commentElem = template.cloneNode(true);
+
+  commentElem.querySelector('.social__picture').setAttribute('src', comment.avatar);
+  commentElem.querySelector('.social__picture').setAttribute('alt', comment.name);
+
+  commentElem.querySelector('.social__text').textContent = comment.message;
+
+  return commentElem;
+}
+
+function addCommentToPicture(comments, target, template) {
+  var fragment = document.createDocumentFragment();
+
+  comments.forEach(function (comment) {
+    fragment.appendChild(renderComment(comment, template));
+  });
+
+  target.querySelector('.social__comments').appendChild(fragment);
+}
+
+function createCommentTempalte() {
+  var template = document.createElement('template');
+  template.id = 'comment';
+
+  var list = document.createElement('li');
+  list.classList.add('social__comment');
+  template.content.appendChild(list);
+
+  list.insertAdjacentHTML('afterbegin', '<img class="social__picture" width="35" height="35">');
+  list.insertAdjacentHTML('beforeend', '<p class="social__text"></p>');
+
+  document.body.appendChild(template);
+
+  return template;
+}
+
+
+function addPictureToBigPicture(item, target, template) {
+  target.querySelector('.big-picture__img').querySelector('img').setAttribute('src', item.url);
+  target.querySelector('.big-picture__img').querySelector('img').setAttribute('alt', item.description);
+  target.querySelector('.likes-count').textContent = item.likes;
+  target.querySelector('.social__caption').textContent = item.description;
+  target.querySelector('.comments-count').textContent = item.comments.length;
+
+  var list = target.querySelector('.social__comments');
+
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+  var comments = item.comments;
+  addCommentToPicture(comments, target, template);
+}
+
 var pictureTemplate = document.querySelector('#picture').content;
 var pictures = document.querySelector('.pictures');
 
 var generatedPictures = generatePictures();
 
 addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+
+var commentCounter = document.querySelector('.social__comment-count');
+commentCounter.classList.add('hidden');
+
+var commentLoader = document.querySelector('.comments-loader');
+commentLoader.classList.add('hidden');
+
+/* //createCommentTempalte(); */
+var commentTemplate = createCommentTempalte().content;
+var bigPicture = document.querySelector('.big-picture');
+addPictureToBigPicture(generatedPictures[0], bigPicture, commentTemplate);
+
+bigPicture.classList.remove('hidden');
+
+document.querySelector('body').classList.add('modal-open');
+
 
