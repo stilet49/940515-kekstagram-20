@@ -112,14 +112,14 @@ function renderComment(comment, template) {
   return commentElem;
 }
 
-function addCommentToPicture(comments, target, template) {
+function addCommentToPicture(comments, template) {
   var fragment = document.createDocumentFragment();
 
   comments.forEach(function (comment) {
     fragment.appendChild(renderComment(comment, template));
   });
 
-  target.querySelector('.social__comments').appendChild(fragment);
+  return fragment;
 }
 
 function createCommentTempalte() {
@@ -152,7 +152,8 @@ function addPictureToBigPicture(item, target, template) {
     list.removeChild(list.firstChild);
   }
   var comments = item.comments;
-  addCommentToPicture(comments, target, template);
+  var commentsFragment = addCommentToPicture(comments, template);
+  target.querySelector('.social__comments').appendChild(commentsFragment);
 }
 
 var pictureTemplate = document.querySelector('#picture').content;
