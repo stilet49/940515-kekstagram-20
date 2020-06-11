@@ -24,6 +24,15 @@ var USERS = [
   'Енютина Регина'
 ];
 
+var KEYCODES = {
+  Enter: 13,
+  Esc: 27
+};
+
+var SCALE_STEP = 25;
+var SCALE_MIN = 25;
+var SCALE_MAX = 100;
+
 function generatePictureURL(index) {
   return 'photos/' + index + '.jpg';
 }
@@ -138,7 +147,6 @@ function createCommentTempalte() {
   return template;
 }
 
-
 function addPictureToBigPicture(item, target, template) {
   target.querySelector('.big-picture__img').querySelector('img').setAttribute('src', item.url);
   target.querySelector('.big-picture__img').querySelector('img').setAttribute('alt', item.description);
@@ -169,13 +177,107 @@ commentCounter.classList.add('hidden');
 var commentLoader = document.querySelector('.comments-loader');
 commentLoader.classList.add('hidden');
 
-/* //createCommentTempalte(); */
 var commentTemplate = createCommentTempalte().content;
 var bigPicture = document.querySelector('.big-picture');
+var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 addPictureToBigPicture(generatedPictures[0], bigPicture, commentTemplate);
 
 bigPicture.classList.remove('hidden');
 
-document.querySelector('body').classList.add('modal-open');
 
+bigPictureCancel.addEventListener('click', function onBigPictureClose(evt) {
+  bigPicture.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+});
 
+var uploadSelectImageForm = document.querySelector('#upload-select-image');
+var uploadOverlay = uploadSelectImageForm.querySelector('.img-upload__overlay');
+var uploadFile = uploadSelectImageForm.querySelector('#upload-file');
+var uploadImage = uploadSelectImageForm.querySelector('.img-upload__start');
+var uploadFormCancel = uploadSelectImageForm.querySelector('.img-upload__cancel');
+var uploadEffectControls = uploadSelectImageForm.querySelector('.img-upload__effects ');
+var uploadResizeControls = uploadSelectImageForm.querySelector('.img-upload__scale');
+var uploadResizeControlsValue = uploadResizeControls.querySelector('.scale__control--value');
+var uploadImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview');
+var effectImagePreview = uploadImagePreview.querySelector('img');
+
+function onUploadOverlayEscPress(evt) {
+  if (evt.keyCode !== KEYCODES.Esc) {
+    return;
+  }
+
+  if (document.activeElement.classList.contains('text__description')) {
+    return;
+  }
+
+  closeUploadOverlay();
+}
+
+function openUploadOverlay() {
+  uploadImage.classList.add('hidden');
+  uploadOverlay.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+}
+
+function closeUploadOverlay() {
+  document.removeEventListener('keydown', onUploadOverlayEscPress);
+
+  uploadImage.classList.remove('hidden');
+  uploadOverlay.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+  uploadFile.removeEventListener('change');
+}
+
+uploadFile.addEventListener('change', function onUploadFileChange(evt) {
+  document.addEventListener('keydown', onUploadOverlayEscPress);
+
+  openUploadOverlay();
+});
+
+uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt) {
+  closeUploadOverlay();
+
+});
+
+uploadEffectControls.addEventListener('change', function onUploadEffectControlsChange(evt) {
+  if (evt.target.name !== 'effect') {
+    return;
+  }
+
+  var effect = 'effects__preview--' + evt.target.value;
+  var radios = evt.currentTarget.querySelectorAll('[name=effect]');
+
+  radios.forEach(function (item) {
+    var effectName = 'effects__preview--' + item.value;
+
+    if (!effectImagePreview.classList.contains(effectName)) {
+      return;
+    }
+
+    effectImagePreview.classList.remove(effectName);
+  });
+
+  effectImagePreview.classList.add(effect);
+});
+
+uploadResizeControls.addEventListener('click', function onUploadResizeControlsClick(evt) {
+  var step = SCALE_STEP;
+  var min = SCALE_MIN;
+  var max = SCALE_MAX;
+
+  var currentValue = uploadResizeControlsValue.value.slice(0, -1);
+  var newValue = null;
+
+  if (evt.target.classList.contains('scale__control--smaller')) {
+    newValue = currentValue - step;
+    newValue = (newValue <= min) ? min : newValue;
+  }
+
+  if (evt.target.classList.contains('scale__control--bigger')) {
+    newValue = currentValue + step;
+    newValue = (newValue >= max) ? max : newValue;
+  }
+
+  uploadResizeControlsValue.value = newValue + '%';
+  effectImagePreview.style.transform = 'scale(' + (newValue/100) + ')';
+});
