@@ -185,7 +185,7 @@ addPictureToBigPicture(generatedPictures[0], bigPicture, commentTemplate);
 bigPicture.classList.remove('hidden');
 
 
-bigPictureCancel.addEventListener('click', function onBigPictureClose(evt) {
+bigPictureCancel.addEventListener('click', function onBigPictureClose() {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 });
@@ -216,11 +216,11 @@ uploadSelectImageForm.addEventListener('submit', function onUploadSelectImageFor
   }
 });
 
-uploadFormDescription.addEventListener('invalid', function (evt) {
+uploadFormDescription.addEventListener('invalid', function () {
   uploadFormDescription.style.border = '1px solid #f00';
 });
 
-uploadFormDescription.addEventListener('valid', function (evt) {
+uploadFormDescription.addEventListener('valid', function () {
   uploadFormDescription.style.border = '';
 });
 
@@ -296,13 +296,13 @@ function closeUploadOverlay() {
   uploadFile.removeEventListener('change');
 }
 
-uploadFile.addEventListener('change', function onUploadFileChange(evt) {
+uploadFile.addEventListener('change', function onUploadFileChange() {
   document.addEventListener('keydown', onUploadOverlayEscPress);
 
   openUploadOverlay();
 });
 
-uploadFormCancel.addEventListener('click', function onUploadFormCancelClick(evt) {
+uploadFormCancel.addEventListener('click', function onUploadFormCancelClick() {
   closeUploadOverlay();
 
 });
