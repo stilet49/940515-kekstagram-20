@@ -132,7 +132,7 @@ function addPhotoToPictures(pictures, target, template) {
     fragment.appendChild(renderPhoto(picture, template));
   });
 
-  target.appendChild(fragment);
+  return fragment;
 }
 
 function renderComment(comment, template) {
@@ -166,8 +166,6 @@ function createCommentTempalte() {
 
   list.insertAdjacentHTML('afterbegin', '<img class="social__picture" width="35" height="35">');
   list.insertAdjacentHTML('beforeend', '<p class="social__text"></p>');
-
-  document.body.appendChild(template);
 
   return template;
 }
@@ -311,7 +309,8 @@ var pictures = document.querySelector('.pictures');
 
 var generatedPictures = generatePictures();
 
-addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+var photos = addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+pictures.appendChild(photos);
 
 var commentCounter = document.querySelector('.social__comment-count');
 commentCounter.classList.add('hidden');
