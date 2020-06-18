@@ -369,11 +369,11 @@ var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 pictures.addEventListener('click', function onPictureClick(evt) {
   var picture = evt.target.closest('.picture');
 
-  evt.preventDefault();
-
   if (!picture) {
     return;
   }
+
+  evt.preventDefault();
   openBigPicture(picture);
 });
 
