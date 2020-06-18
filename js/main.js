@@ -392,7 +392,7 @@ pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
   openBigPicture(picture);
 });
 
-bigPictureCancel.addEventListener('click', function onBigPictureCloseClick(evt) {
+bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 });
