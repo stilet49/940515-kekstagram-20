@@ -304,6 +304,19 @@ function changeLevelDisplay(form) {
   effectLevel.style.display = 'block';
 }
 
+function openBigPicture(picture) {
+  var pictureUrl = picture.querySelector('img').getAttribute('src');
+  var commentTemplate = createCommentTempalte().content;
+  var index = returnPicture(generatedPictures, pictureUrl);
+
+  addPictureToBigPicture(generatedPictures[index], bigPicture, commentTemplate);
+
+  document.addEventListener('keydown', onBigPictureEscPress);
+
+  document.querySelector('body').classList.add('modal-open');
+  bigPicture.classList.remove('hidden');
+}
+
 function returnPicture(pictures, pictureUrl) {
   var index = 0;
   for (var i = 0; i < pictures.length; i++) {
@@ -313,6 +326,23 @@ function returnPicture(pictures, pictureUrl) {
     }
   }
   return index;
+}
+
+function closeBigPicture() {
+  document.removeEventListener('keydown', onBigPictureEscPress);
+  bigPicture.classList.add('hidden');
+}
+
+function onBigPictureEscPress(evt) {
+  if (evt.keyCode !== KEYCODES.Esc) {
+    return;
+  }
+
+  if (bigPicture.classList.contains('hidden')) {
+    return;
+  }
+
+  closeBigPicture();
 }
 
 var pictureTemplate = document.querySelector('#picture').content;
@@ -344,19 +374,35 @@ pictures.addEventListener('click', function onPictureClick(evt) {
   if (!picture) {
     return;
   }
-
-  var pictureUrl = picture.querySelector('img').getAttribute('src');
-  var commentTemplate = createCommentTempalte().content;
-  var index = returnPicture(generatedPictures, pictureUrl);
-
-  addPictureToBigPicture(generatedPictures[index], bigPicture, commentTemplate);
-
-  bigPicture.classList.remove('hidden');
+  openBigPicture(picture);
 });
 
-bigPictureCancel.addEventListener('click', function onBigPictureClose() {
+pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
+  var picture = evt.target.closest('.picture');
+
+  if (evt.keyCode !== KEYCODES.Enter) {
+    return;
+  }
+
+  evt.preventDefault();
+
+  if (!picture) {
+    return;
+  }
+  openBigPicture(picture);
+});
+
+bigPictureCancel.addEventListener('click', function onBigPictureCloseClick(evt) {
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
+});
+
+bigPictureCancel.addEventListener('keydown', function onBigPictureCancelEnterPress(evt) {
+  if (evt.keyCode !== KEYCODES.Enter) {
+    return;
+  }
+
+  closeBigPicture();
 });
 
 var uploadSelectImageForm = document.querySelector('#upload-select-image');
