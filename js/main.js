@@ -24,7 +24,7 @@ var USERS = [
   'Енютина Регина'
 ];
 
-var keyCodes = {
+var KeyCodes = {
   ENTER: 13,
   ESC: 27
 };
@@ -237,7 +237,7 @@ function validataFormHashtags(form) {
 }
 
 function onUploadOverlayEscPress(evt) {
-  if (evt.keyCode !== keyCodes.ESC) {
+  if (evt.keyCode !== KeyCodes.ESC) {
     return;
   }
 
@@ -334,7 +334,7 @@ function closeBigPicture() {
 }
 
 function onBigPictureEscPress(evt) {
-  if (evt.keyCode !== keyCodes.ESC) {
+  if (evt.keyCode !== KeyCodes.ESC) {
     return;
   }
 
@@ -380,16 +380,15 @@ pictures.addEventListener('click', function onPictureClick(evt) {
 pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
   var picture = evt.target.closest('.picture');
 
-  if (evt.keyCode !== keyCodes.ENTER) {
+  if (evt.keyCode !== KeyCodes.ENTER) {
     return;
   }
-
-  evt.preventDefault();
 
   if (!picture) {
     return;
   }
-  openBigPicture(picture);
+  evt.preventDefault();
+  openBigPicture(picture, generatedPictures, bigPicture);
 });
 
 bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
@@ -398,7 +397,7 @@ bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
 });
 
 bigPictureCancel.addEventListener('keydown', function onBigPictureCancelEnterPress(evt) {
-  if (evt.keyCode !== keyCodes.ENTER) {
+  if (evt.keyCode !== KeyCodes.ENTER) {
     return;
   }
 
