@@ -24,9 +24,9 @@ var USERS = [
   'Енютина Регина'
 ];
 
-var KEYCODES = {
-  Enter: 13,
-  Esc: 27
+var keyCodes = {
+  ENTER: 13,
+  ESC: 27
 };
 
 var SCALE_STEP = 25;
@@ -125,7 +125,7 @@ function renderPhoto(picture, template) {
   return pictureElem;
 }
 
-function addPhotoToPictures(pictures, target, template) {
+function addPhotoToPictures(pictures, template) {
   var fragment = document.createDocumentFragment();
 
   pictures.forEach(function (picture) {
@@ -167,7 +167,7 @@ function createCommentTempalte() {
   list.insertAdjacentHTML('afterbegin', '<img class="social__picture" width="35" height="35">');
   list.insertAdjacentHTML('beforeend', '<p class="social__text"></p>');
 
-  return template;
+  return template.content;
 }
 
 function addPictureToBigPicture(item, target, template) {
@@ -237,7 +237,7 @@ function validataFormHashtags(form) {
 }
 
 function onUploadOverlayEscPress(evt) {
-  if (evt.keyCode !== KEYCODES.Esc) {
+  if (evt.keyCode !== keyCodes.ESC) {
     return;
   }
 
@@ -304,12 +304,12 @@ function changeLevelDisplay(form) {
   effectLevel.style.display = 'block';
 }
 
-function openBigPicture(picture) {
+function openBigPicture(picture, pictures, target) {
   var pictureUrl = picture.querySelector('img').getAttribute('src');
-  var commentTemplate = createCommentTempalte().content;
-  var index = returnPicture(generatedPictures, pictureUrl);
+  var commentTemplate = createCommentTempalte();
+  var index = returnPicture(pictures, pictureUrl);
 
-  addPictureToBigPicture(generatedPictures[index], bigPicture, commentTemplate);
+  addPictureToBigPicture(pictures[index], target, commentTemplate);
 
   document.addEventListener('keydown', onBigPictureEscPress);
 
@@ -334,7 +334,7 @@ function closeBigPicture() {
 }
 
 function onBigPictureEscPress(evt) {
-  if (evt.keyCode !== KEYCODES.Esc) {
+  if (evt.keyCode !== keyCodes.ESC) {
     return;
   }
 
@@ -350,7 +350,7 @@ var pictures = document.querySelector('.pictures');
 
 var generatedPictures = generatePictures();
 
-var photos = addPhotoToPictures(generatedPictures, pictures, pictureTemplate);
+var photos = addPhotoToPictures(generatedPictures, pictureTemplate);
 pictures.appendChild(photos);
 
 var commentCounter = document.querySelector('.social__comment-count');
@@ -374,13 +374,13 @@ pictures.addEventListener('click', function onPictureClick(evt) {
   }
 
   evt.preventDefault();
-  openBigPicture(picture);
+  openBigPicture(picture, generatedPictures, bigPicture);
 });
 
 pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
   var picture = evt.target.closest('.picture');
 
-  if (evt.keyCode !== KEYCODES.Enter) {
+  if (evt.keyCode !== keyCodes.ENTER) {
     return;
   }
 
@@ -398,7 +398,7 @@ bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
 });
 
 bigPictureCancel.addEventListener('keydown', function onBigPictureCancelEnterPress(evt) {
-  if (evt.keyCode !== KEYCODES.Enter) {
+  if (evt.keyCode !== keyCodes.ENTER) {
     return;
   }
 
