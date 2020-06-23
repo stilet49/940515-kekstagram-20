@@ -131,9 +131,6 @@ function renderPhoto(picture, template) {
       return;
     }
 
-    if (!picture) {
-      return;
-    }
     evt.preventDefault();
     openBigPicture(picture, bigPicture);
   });
