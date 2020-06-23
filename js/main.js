@@ -114,14 +114,29 @@ function generatePictures(quantity) {
 
 function renderPhoto(picture, template) {
   var pictureElem = template.cloneNode(true);
-
+  var pictureLink = pictureElem.querySelector('.picture');
   pictureElem.querySelector('.picture')
     .querySelector('img').setAttribute('src', picture.url);
 
   pictureElem.querySelector('.picture__likes').textContent = picture.likes;
 
   pictureElem.querySelector('.picture__comments').textContent = picture.comments.length;
+  pictureLink.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    openBigPicture(picture, bigPicture);
+  });
 
+  pictureLink.addEventListener('keydown', function (evt) {
+    if (evt.keyCode !== KeyCodes.ENTER) {
+      return;
+    }
+
+    if (!picture) {
+      return;
+    }
+    evt.preventDefault();
+    openBigPicture(picture, bigPicture);
+  });
   return pictureElem;
 }
 
@@ -304,12 +319,12 @@ function changeLevelDisplay(form) {
   effectLevel.style.display = 'block';
 }
 
-function openBigPicture(picture, pictures, target) {
-  var pictureUrl = picture.querySelector('img').getAttribute('src');
+function openBigPicture(picture, target) {
+  /* var pictureUrl = picture.querySelector('img').getAttribute('src'); */
   var commentTemplate = createCommentTempalte();
-  var index = returnPicture(pictures, pictureUrl);
+  /* var index = returnPicture(pictures, pictureUrl); */
 
-  addPictureToBigPicture(pictures[index], target, commentTemplate);
+  addPictureToBigPicture(picture, target, commentTemplate);
 
   document.addEventListener('keydown', onBigPictureEscPress);
 
@@ -317,7 +332,7 @@ function openBigPicture(picture, pictures, target) {
   bigPicture.classList.remove('hidden');
 }
 
-function returnPicture(pictures, pictureUrl) {
+/* function returnPicture(pictures, pictureUrl) {
   var index = 0;
   for (var i = 0; i < pictures.length; i++) {
     if (pictures[i].url === pictureUrl) {
@@ -326,7 +341,7 @@ function returnPicture(pictures, pictureUrl) {
     }
   }
   return index;
-}
+} */
 
 function closeBigPicture() {
   document.removeEventListener('keydown', onBigPictureEscPress);
@@ -366,7 +381,14 @@ var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
 /* bigPicture.classList.remove('hidden'); */
 
-pictures.addEventListener('click', function onPictureClick(evt) {
+/* generatedPictures.forEach(function (picture) {
+  picture.addEventListener('click', function onPictureClick(evt) {
+    evt.preventDefault();
+    openBigPicture(picture, bigPicture);
+  });
+}); */
+
+/* pictures.addEventListener('click', function onPictureClick(evt) {
   var picture = evt.target.closest('.picture');
 
   if (!picture) {
@@ -375,9 +397,9 @@ pictures.addEventListener('click', function onPictureClick(evt) {
 
   evt.preventDefault();
   openBigPicture(picture, generatedPictures, bigPicture);
-});
+}); */
 
-pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
+/* pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
   var picture = evt.target.closest('.picture');
 
   if (evt.keyCode !== KeyCodes.ENTER) {
@@ -389,7 +411,7 @@ pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
   }
   evt.preventDefault();
   openBigPicture(picture, generatedPictures, bigPicture);
-});
+}); */
 
 bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
   bigPicture.classList.add('hidden');
