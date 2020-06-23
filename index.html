@@ -119,7 +119,7 @@
                 <!-- Добавление хэш-тегов и комментария к изображению -->
                 <fieldset class="img-upload__text text">
                   <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
-                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                  <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
                 </fieldset>
 
                 <!-- Кнопка для отправки данных на сервер -->
@@ -177,7 +177,7 @@
         </div>
 
         <!-- Кнопка для выхода из полноэкранного просмотра изображения -->
-        <button type="reset" class="big-picture__cancel  cancel" id="picture-cancel">Закрыть</button>
+        <button type="reset" class="big-picture__cancel  cancel" id="picture-cancel" tabindex="0">Закрыть</button>
       </div>
     </section>
   </main>
@@ -199,7 +199,7 @@
 
   <!-- Шаблон изображения случайного пользователя -->
   <template id="picture">
-    <a href="#" class="picture">
+    <a href="#" class="picture" tabindex="0">
       <img class="picture__img" src="" width="182" height="182" alt="Случайная фотография">
       <p class="picture__info">
         <span class="picture__comments"></span>
