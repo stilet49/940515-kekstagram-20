@@ -298,7 +298,7 @@ function updateEffectsLevel(percents) {
 }
 
 function changeLevelDisplay(form) {
-  var effectImagePreview = form.querySelector('.img-upload__preview img')/* .querySelector('img') */;
+  var effectImagePreview = form.querySelector('.img-upload__preview').querySelector('img');
   var effectLevel = form.querySelector('.img-upload__effect-level');
   var effectLevelLine = effectLevel.querySelector('.effect-level__line');
   var effectLevelPin = effectLevelLine.querySelector('.effect-level__pin');
@@ -317,9 +317,7 @@ function changeLevelDisplay(form) {
 }
 
 function openBigPicture(picture, target) {
-  /* var pictureUrl = picture.querySelector('img').getAttribute('src'); */
   var commentTemplate = createCommentTempalte();
-  /* var index = returnPicture(pictures, pictureUrl); */
 
   addPictureToBigPicture(picture, target, commentTemplate);
 
@@ -328,17 +326,6 @@ function openBigPicture(picture, target) {
   document.querySelector('body').classList.add('modal-open');
   bigPicture.classList.remove('hidden');
 }
-
-/* function returnPicture(pictures, pictureUrl) {
-  var index = 0;
-  for (var i = 0; i < pictures.length; i++) {
-    if (pictures[i].url === pictureUrl) {
-      index = i;
-      break;
-    }
-  }
-  return index;
-} */
 
 function closeBigPicture() {
   document.removeEventListener('keydown', onBigPictureEscPress);
@@ -374,41 +361,6 @@ commentLoader.classList.add('hidden');
 
 var bigPicture = document.querySelector('.big-picture');
 var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
-/* addPictureToBigPicture(generatedPictures[0], bigPicture, commentTemplate); */
-
-/* bigPicture.classList.remove('hidden'); */
-
-/* generatedPictures.forEach(function (picture) {
-  picture.addEventListener('click', function onPictureClick(evt) {
-    evt.preventDefault();
-    openBigPicture(picture, bigPicture);
-  });
-}); */
-
-/* pictures.addEventListener('click', function onPictureClick(evt) {
-  var picture = evt.target.closest('.picture');
-
-  if (!picture) {
-    return;
-  }
-
-  evt.preventDefault();
-  openBigPicture(picture, generatedPictures, bigPicture);
-}); */
-
-/* pictures.addEventListener('keydown', function onBigPictureEnterPress(evt) {
-  var picture = evt.target.closest('.picture');
-
-  if (evt.keyCode !== KeyCodes.ENTER) {
-    return;
-  }
-
-  if (!picture) {
-    return;
-  }
-  evt.preventDefault();
-  openBigPicture(picture, generatedPictures, bigPicture);
-}); */
 
 bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
   bigPicture.classList.add('hidden');
@@ -462,7 +414,7 @@ uploadSelectImageForm.querySelector('.img-upload__scale').addEventListener('clic
   var max = SCALE_MAX;
 
   var uploadResizeControlsValue = uploadSelectImageForm.querySelector('.img-upload__scale').querySelector('.scale__control--value');
-  var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview img')/* . querySelector('img') */;
+  var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview'). querySelector('img');
 
   var currentValue = parseInt(uploadResizeControlsValue.value.slice(0, -1), 10);
   var newValue = 0;
@@ -483,15 +435,10 @@ uploadSelectImageForm.querySelector('.img-upload__scale').addEventListener('clic
 
 var currentEffect = 'none';
 
-/* //var effectLevel = document.querySelector('.img-upload__effect-level');
-//var effectLevelLine = effectLevel.querySelector('.effect-level__line');
-//var effectLevelPin = effectLevelLine.querySelector('.effect-level__pin');
-//var effectLevelVal = effectLevelLine.querySelector('.effect-level__depth'); */
-
 changeLevelDisplay(uploadSelectImageForm);
 
 uploadSelectImageForm.querySelector('.img-upload__effects ').addEventListener('change', function onUploadEffectControlsChange(evt) {
-  var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview img')/* .querySelector('img') */;
+  var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview').querySelector('img');
 
   if (evt.target.name !== 'effect') {
     return;
