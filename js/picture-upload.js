@@ -77,7 +77,6 @@
     form.querySelector('.img-upload__start').classList.remove('hidden');
     form.querySelector('.img-upload__overlay').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
-    /* form.querySelector('#upload-file').removeEventListener('change', onUploadFileChange); */
   }
 
   function onUploadFileChange(evt) {
