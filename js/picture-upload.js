@@ -10,7 +10,7 @@
     var uploadEffectControls = form.querySelector('.img-upload__effects ');
 
     uploadFile.value = '';
-    uploadResizeControlsValue.value = '55%';
+    uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
     effectImagePreview.style.transform = '';
 
