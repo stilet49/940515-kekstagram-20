@@ -77,8 +77,29 @@
     form.querySelector('.img-upload__start').classList.remove('hidden');
     form.querySelector('.img-upload__overlay').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
-    form.querySelector('#upload-file').removeEventListener('change');
+    /* form.querySelector('#upload-file').removeEventListener('change', onUploadFileChange); */
   }
+
+  function onUploadFileChange(evt) {
+    document.addEventListener('keydown', onUploadOverlayEscPress(evt));
+
+    openUploadOverlay(uploadSelectImageForm);
+  }
+
+  var onLoadForm = function () {
+    closeUploadOverlay(uploadSelectImageForm);
+    window.requestResult.displaySuccess();
+  };
+
+  var onErrorForm = function () {
+    closeUploadOverlay(uploadSelectImageForm);
+    window.requestResult.displayError(true);
+  };
+
+  var onUploadFormElementSubmit = function (evt) {
+    window.backend.upload(new FormData(uploadSelectImageForm), onLoadForm, onErrorForm);
+    evt.preventDefault();
+  };
 
   var uploadSelectImageForm = document.querySelector('#upload-select-image');
 
@@ -92,7 +113,10 @@
 
     if (!isValidForm) {
       evt.preventDefault();
+    } else {
+      onUploadFormElementSubmit(evt);
     }
+
   });
 
   uploadSelectImageForm.querySelector('.text__description').addEventListener('invalid', function () {
@@ -103,11 +127,7 @@
     uploadSelectImageForm.querySelector('.text__description').style.border = '';
   });
 
-  uploadSelectImageForm.querySelector('#upload-file').addEventListener('change', function onUploadFileChange() {
-    document.addEventListener('keydown', onUploadOverlayEscPress);
-
-    openUploadOverlay(uploadSelectImageForm);
-  });
+  uploadSelectImageForm.querySelector('#upload-file').addEventListener('change', onUploadFileChange);
 
   uploadSelectImageForm.querySelector('.img-upload__cancel').addEventListener('click', function onUploadFormCancelClick() {
     closeUploadOverlay(uploadSelectImageForm);
