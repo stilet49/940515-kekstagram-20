@@ -2,15 +2,11 @@
 
 (function () {
 
-  var picturesData = null;
-
   var onSuccess = function (allPictures) {
     var pictureTemplate = document.querySelector('#picture').content;
     var pictures = document.querySelector('.pictures');
 
-    picturesData = allPictures;
-
-    var photos = window.picture.addPhotoToPictures(picturesData, pictureTemplate);
+    var photos = window.picture.addPhotoToPictures(allPictures, pictureTemplate);
     pictures.appendChild(photos);
   };
 
