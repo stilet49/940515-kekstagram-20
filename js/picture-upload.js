@@ -60,44 +60,47 @@
       return;
     }
 
-    closeUploadOverlay(uploadSelectImageForm);
+    closeUploadOverlay();
   }
 
-  function openUploadOverlay(form) {
-    form.querySelector('.img-upload__start').classList.add('hidden');
-    form.querySelector('.img-upload__overlay').classList.remove('hidden');
+  function openUploadOverlay() {
+    var uploadSelectImageForm = document.querySelector('#upload-select-image');
+
+    uploadSelectImageForm.querySelector('.img-upload__start').classList.add('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__overlay').classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
   }
 
-  function closeUploadOverlay(form) {
+  function closeUploadOverlay() {
+    var uploadSelectImageForm = document.querySelector('#upload-select-image');
     document.removeEventListener('keydown', onUploadOverlayEscPress);
 
-    resetUploadForm(form);
+    resetUploadForm(uploadSelectImageForm);
 
-    form.querySelector('.img-upload__start').classList.remove('hidden');
-    form.querySelector('.img-upload__overlay').classList.add('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__start').classList.remove('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__overlay').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
   }
 
   function onUploadFileChange(evt) {
     document.addEventListener('keydown', onUploadOverlayEscPress(evt));
-
-    openUploadOverlay(uploadSelectImageForm);
+    openUploadOverlay();
   }
 
   var onLoadForm = function () {
-    closeUploadOverlay(uploadSelectImageForm);
+    closeUploadOverlay();
     window.requestResult.displaySuccess();
   };
 
   var onErrorForm = function () {
-    closeUploadOverlay(uploadSelectImageForm);
+    closeUploadOverlay();
     window.requestResult.displayError(true);
   };
 
-  var onUploadFormElementSubmit = function (evt) {
-    window.backend.upload(new FormData(uploadSelectImageForm), onLoadForm, onErrorForm);
-    evt.preventDefault();
+  var onUploadFormElementSubmit = function (form) {
+    var formData = new FormData(form);
+
+    window.backend.upload(formData, onLoadForm, onErrorForm);
   };
 
   var uploadSelectImageForm = document.querySelector('#upload-select-image');
@@ -107,13 +110,13 @@
       evt.preventDefault();
       return;
     }
-
+    evt.preventDefault();
     var isValidForm = validateUploadForm(uploadSelectImageForm);
 
     if (!isValidForm) {
       evt.preventDefault();
     } else {
-      onUploadFormElementSubmit(evt);
+      onUploadFormElementSubmit(uploadSelectImageForm);
     }
 
   });

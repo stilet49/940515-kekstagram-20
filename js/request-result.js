@@ -9,6 +9,8 @@
 
   var linkElement = messageSuccessTemplate.querySelector('.success__button');
 
+  var mainElement = document.querySelector('main');
+
   var isReload = false;
 
   var displayError = function (isReloadPage) {
@@ -30,7 +32,7 @@
   };
 
   var displaySuccess = function () {
-    document.body.querySelector('main').appendChild(messageSuccessTemplate);
+    mainElement.appendChild(messageSuccessTemplate);
 
     linkElement.addEventListener('click', onLinkElementClick);
 
@@ -49,14 +51,16 @@
 
   var closeMessageSuccess = function () {
     linkElement.removeEventListener('click', onLinkElementClick);
-    document.body.querySelector('main').removeChild(document.body.querySelector('main').querySelector('.success'));
+
+    mainElement.removeChild(mainElement.querySelector('.success'));
 
     document.removeEventListener('keydown', onMessageSuccessContainerEscPress);
   };
 
   var closeMessageError = function (isReloadPage) {
     reloadElement.removeEventListener('click', onReloadElementClick);
-    document.body.querySelector('main').removeChild(document.body.querySelector('main').querySelector('.error'));
+
+    mainElement.removeChild(mainElement.querySelector('.error'));
 
     document.removeEventListener('keydown', onMessageErrorContainerEscPress);
 
