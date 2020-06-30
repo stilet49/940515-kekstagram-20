@@ -78,7 +78,7 @@
     var max = SCALE_MAX;
 
     var uploadResizeControlsValue = uploadSelectImageForm.querySelector('.img-upload__scale').querySelector('.scale__control--value');
-    var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview'). querySelector('img');
+    var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview').querySelector('img');
 
     var currentValue = parseInt(uploadResizeControlsValue.value.slice(0, -1), 10);
     var newValue = 0;

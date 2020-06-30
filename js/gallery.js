@@ -10,13 +10,9 @@
     pictures.appendChild(photos);
   };
 
-  var onError = function () {
-    /* Я пока не придумал как обрабатывать ошибки, да и по заданию никаких требований нет.
-    При этом на вывод в консоль и алерт линтер ругается*/
+  var onError = function (message) {
+    window.requestResult.displayError(message, true);
   };
-  /* var generatedPictures = window.data.generatePictures();
-  var photos = window.picture.addPhotoToPictures(generatedPictures, pictureTemplate);
-  pictures.appendChild(photos); */
 
   window.backend.load(onSuccess, onError);
 

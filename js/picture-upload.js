@@ -10,7 +10,7 @@
     var uploadEffectControls = form.querySelector('.img-upload__effects ');
 
     uploadFile.value = '';
-    uploadResizeControlsValue.value = '55%';
+    uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
     effectImagePreview.style.transform = '';
 
@@ -60,25 +60,48 @@
       return;
     }
 
-    closeUploadOverlay(uploadSelectImageForm);
+    closeUploadOverlay();
   }
 
-  function openUploadOverlay(form) {
-    form.querySelector('.img-upload__start').classList.add('hidden');
-    form.querySelector('.img-upload__overlay').classList.remove('hidden');
+  function openUploadOverlay() {
+    var uploadSelectImageForm = document.querySelector('#upload-select-image');
+
+    uploadSelectImageForm.querySelector('.img-upload__start').classList.add('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__overlay').classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
   }
 
-  function closeUploadOverlay(form) {
+  function closeUploadOverlay() {
+    var uploadSelectImageForm = document.querySelector('#upload-select-image');
     document.removeEventListener('keydown', onUploadOverlayEscPress);
 
-    resetUploadForm(form);
+    resetUploadForm(uploadSelectImageForm);
 
-    form.querySelector('.img-upload__start').classList.remove('hidden');
-    form.querySelector('.img-upload__overlay').classList.add('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__start').classList.remove('hidden');
+    uploadSelectImageForm.querySelector('.img-upload__overlay').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
-    form.querySelector('#upload-file').removeEventListener('change');
   }
+
+  function onUploadFileChange(evt) {
+    document.addEventListener('keydown', onUploadOverlayEscPress(evt));
+    openUploadOverlay();
+  }
+
+  var onLoadForm = function () {
+    closeUploadOverlay();
+    window.requestResult.displaySuccess();
+  };
+
+  var onErrorForm = function () {
+    closeUploadOverlay();
+    window.requestResult.displayError(true);
+  };
+
+  var onUploadFormElementSubmit = function (form) {
+    var formData = new FormData(form);
+
+    window.backend.upload(formData, onLoadForm, onErrorForm);
+  };
 
   var uploadSelectImageForm = document.querySelector('#upload-select-image');
 
@@ -87,12 +110,15 @@
       evt.preventDefault();
       return;
     }
-
+    evt.preventDefault();
     var isValidForm = validateUploadForm(uploadSelectImageForm);
 
     if (!isValidForm) {
       evt.preventDefault();
+    } else {
+      onUploadFormElementSubmit(uploadSelectImageForm);
     }
+
   });
 
   uploadSelectImageForm.querySelector('.text__description').addEventListener('invalid', function () {
@@ -103,11 +129,7 @@
     uploadSelectImageForm.querySelector('.text__description').style.border = '';
   });
 
-  uploadSelectImageForm.querySelector('#upload-file').addEventListener('change', function onUploadFileChange() {
-    document.addEventListener('keydown', onUploadOverlayEscPress);
-
-    openUploadOverlay(uploadSelectImageForm);
-  });
+  uploadSelectImageForm.querySelector('#upload-file').addEventListener('change', onUploadFileChange);
 
   uploadSelectImageForm.querySelector('.img-upload__cancel').addEventListener('click', function onUploadFormCancelClick() {
     closeUploadOverlay(uploadSelectImageForm);
