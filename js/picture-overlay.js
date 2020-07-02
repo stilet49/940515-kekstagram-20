@@ -1,62 +1,81 @@
 'use strict';
 
 (function () {
-  function renderComment(comment, template) {
-    var commentElem = template.cloneNode(true);
 
-    commentElem.querySelector('.social__picture').setAttribute('src', comment.avatar);
-    commentElem.querySelector('.social__picture').setAttribute('alt', comment.name);
+  var MAX_COMMENTS_LENGTH = 5;
 
-    commentElem.querySelector('.social__text').textContent = comment.message;
+  var bigPicture = document.querySelector('.big-picture');
+  var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
+  var commentsContainer = bigPicture.querySelector('.social__comments');
+  var commentCountElement = bigPicture.querySelector('.social__comment-count');
+  var loadMoreCommentsBtn = bigPicture.querySelector('.comments-loader');
 
-    return commentElem;
+  var clonedComments = [];
+  var currentAddedComments = null;
+
+  function renderComment(comment) {
+    var commentElement = document.createElement('li');
+    var userIconElement = document.createElement('img');
+    var commentText = document.createTextNode(comment.message);
+
+    commentElement.classList.add('social__comment', 'social__comment--text');
+    userIconElement.classList.add('social__picture');
+    userIconElement.src = comment.avatar;
+    userIconElement.alt = comment.name;
+
+    commentElement.appendChild(userIconElement);
+    commentElement.appendChild(commentText);
+
+    return commentElement;
   }
 
-  function addCommentToPicture(comments, template) {
-    var fragment = document.createDocumentFragment();
+  function addCommentToPicture(commentsLength) {
+    currentAddedComments += commentsLength;
 
-    comments.forEach(function (comment) {
-      fragment.appendChild(renderComment(comment, template));
-    });
+    for (var i = 0; i < commentsLength; i++) {
+      commentsContainer.appendChild(renderComment(clonedComments[0]));
 
-    return fragment;
+      clonedComments.splice(0, 1);
+    }
+
+    if (clonedComments.length === 0) {
+      loadMoreCommentsBtn.classList.add('hidden');
+    }
+    /* ------ Эта запись возможно не правильна. Можно переписать через TextContent, но тагда пропадает элемент <span class="comments-count">. Как по другому, я не придумал */
+    commentCountElement.innerHTML = currentAddedComments.toString() + commentCountElement.innerHTML.slice(commentCountElement.innerHTML.indexOf(' '), commentCountElement.innerHTML.length);
+    /* -------- */
   }
 
-  function createCommentTempalte() {
-    var template = document.createElement('template');
-    template.id = 'comment';
+  var onLoadMoreCommentsBtnClick = function (evt) {
+    evt.preventDefault();
 
-    var list = document.createElement('li');
-    list.classList.add('social__comment');
-    template.content.appendChild(list);
+    addCommentToPicture(window.util.clamp(clonedComments.length, 0, MAX_COMMENTS_LENGTH));
+  };
 
-    list.insertAdjacentHTML('afterbegin', '<img class="social__picture" width="35" height="35">');
-    list.insertAdjacentHTML('beforeend', '<p class="social__text"></p>');
-
-    return template.content;
-  }
-
-  function addPictureToBigPicture(item, target, template) {
+  function addPictureToBigPicture(item, target) {
     target.querySelector('.big-picture__img').querySelector('img').setAttribute('src', item.url);
     target.querySelector('.big-picture__img').querySelector('img').setAttribute('alt', item.description);
     target.querySelector('.likes-count').textContent = item.likes;
     target.querySelector('.social__caption').textContent = item.description;
-    target.querySelector('.comments-count').textContent = item.comments.length;
+    target.querySelector('.comments-count').textContent = (item.comments.length).toString();
 
     var list = target.querySelector('.social__comments');
 
     while (list.firstChild) {
       list.removeChild(list.firstChild);
     }
-    var comments = item.comments;
-    var commentsFragment = addCommentToPicture(comments, template);
-    target.querySelector('.social__comments').appendChild(commentsFragment);
+    loadMoreCommentsBtn.classList.toggle('hidden', (item.comments.length <= 5));
+    clonedComments = item.comments.slice();
+
+    addCommentToPicture(window.util.clamp(clonedComments.length, 0, MAX_COMMENTS_LENGTH));
+
+    loadMoreCommentsBtn.addEventListener('click', onLoadMoreCommentsBtnClick);
+
   }
 
   function openBigPicture(picture, target) {
-    var commentTemplate = createCommentTempalte();
 
-    addPictureToBigPicture(picture, target, commentTemplate);
+    addPictureToBigPicture(picture, target);
 
     document.addEventListener('keydown', onBigPictureEscPress);
 
@@ -65,8 +84,11 @@
   }
 
   function closeBigPicture() {
+    currentAddedComments = 0;
+
     document.removeEventListener('keydown', onBigPictureEscPress);
     bigPicture.classList.add('hidden');
+    loadMoreCommentsBtn.removeEventListener('click', onLoadMoreCommentsBtnClick);
   }
 
   function onBigPictureEscPress(evt) {
@@ -81,12 +103,8 @@
     closeBigPicture();
   }
 
-  var bigPicture = document.querySelector('.big-picture');
-  var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
-
   bigPictureCancel.addEventListener('click', function onBigPictureCloseClick() {
-    bigPicture.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
+    closeBigPicture();
   });
 
   bigPictureCancel.addEventListener('keydown', function onBigPictureCancelEnterPress(evt) {
