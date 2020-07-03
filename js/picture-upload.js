@@ -68,6 +68,9 @@
     resetUploadForm(uploadSelectImageForm);
     effectImagePreview.src = fileUrl;
 
+    uploadSelectImageForm.querySelectorAll('.effects__preview').forEach(function (item) {
+      item.style.backgroundImage = 'url(' + fileUrl + ')';
+    });
     uploadSelectImageForm.querySelector('.img-upload__start').classList.add('hidden');
     uploadSelectImageForm.querySelector('.img-upload__overlay').classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
