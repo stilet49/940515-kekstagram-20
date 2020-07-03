@@ -34,10 +34,15 @@
     return array;
   };
 
+  var clamp = function (value, min, max) {
+    return Math.max(min, Math.min(value, max));
+  };
+
   window.util = {
     KeyCodes: KeyCodes,
     debounce: debounce,
-    shuffleArray: shuffleArray
+    shuffleArray: shuffleArray,
+    clamp: clamp
   };
 })();
 

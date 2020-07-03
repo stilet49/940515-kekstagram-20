@@ -4,6 +4,7 @@
   var picturesData = null;
   var imgFiltersContainer = document.querySelector('.img-filters');
   var picturesContainer = document.querySelector('.pictures');
+  var pictureTemplate = document.querySelector('#picture').content;
 
   var removePictureElements = function () {
     var pictureElements = Array.from(picturesContainer.querySelectorAll('.picture'));
@@ -14,8 +15,6 @@
   };
 
   var renderPictures = function (pictures) {
-    var pictureTemplate = document.querySelector('#picture').content;
-
     var photos = window.picture.addPhotoToPictures(pictures, pictureTemplate);
 
     picturesContainer.appendChild(photos);
@@ -81,8 +80,8 @@
 
   window.backend.load(onSuccess, onError);
 
-  var commentCounter = document.querySelector('.social__comment-count');
-  commentCounter.classList.add('hidden');
+  /* var commentCounter = document.querySelector('.social__comment-count');
+  commentCounter.classList.add('hidden'); */
 
   var commentLoader = document.querySelector('.comments-loader');
   commentLoader.classList.add('hidden');
