@@ -41,9 +41,9 @@
     if (clonedComments.length === 0) {
       loadMoreCommentsBtn.classList.add('hidden');
     }
-    /* ------ Эта запись возможно не правильна. Можно переписать через TextContent, но тагда пропадает элемент <span class="comments-count">. Как по другому, я не придумал */
+
     commentCountElement.firstChild.textContent = currentAddedComments.toString() + ' из ';
-    /* -------- */
+
   }
 
   var onLoadMoreCommentsBtnClick = function (evt) {

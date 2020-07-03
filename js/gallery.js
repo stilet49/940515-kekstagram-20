@@ -80,9 +80,6 @@
 
   window.backend.load(onSuccess, onError);
 
-  /* var commentCounter = document.querySelector('.social__comment-count');
-  commentCounter.classList.add('hidden'); */
-
   var commentLoader = document.querySelector('.comments-loader');
   commentLoader.classList.add('hidden');
 })();
