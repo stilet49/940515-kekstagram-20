@@ -13,7 +13,7 @@
     uploadFileElement.value = '';
     uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
-    effectImagePreview.style.transform = '';
+    effectImagePreview.style = '';
 
     uploadEffectControls.querySelector('[name=effect]').checked = true;
     form.querySelector('.text__hashtags').value = '';
