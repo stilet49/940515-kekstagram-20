@@ -44,7 +44,7 @@
   };
 
   var onMessageSuccessContainerEscPress = function (evt) {
-    if (evt.keyCode !== window.util.KeyCodes.ENTER) {
+    if (evt.keyCode === window.util.KeyCodes.ESC) {
       closeMessageSuccess();
     }
   };
