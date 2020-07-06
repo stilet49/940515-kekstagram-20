@@ -93,11 +93,7 @@
   }
 
   function onBigPictureEscPress(evt) {
-    if (evt.keyCode !== window.util.KeyCodes.ESC) {
-      return;
-    }
-
-    if (bigPicture.classList.contains('hidden')) {
+    if (evt.keyCode !== window.util.KeyCodes.ESC || bigPicture.classList.contains('hidden')) {
       return;
     }
 
