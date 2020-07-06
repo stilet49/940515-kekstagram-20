@@ -12,7 +12,6 @@
 
     var uploadEffectControls = form.querySelector('.img-upload__effects ');
 
-    /* uploadFileElement.value = ''; */
     uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
     effectImagePreview.style = '';
