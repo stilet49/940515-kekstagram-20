@@ -87,6 +87,7 @@
     currentAddedComments = 0;
 
     document.removeEventListener('keydown', onBigPictureEscPress);
+    document.querySelector('body').classList.remove('modal-open');
     bigPicture.classList.add('hidden');
     loadMoreCommentsBtn.removeEventListener('click', onLoadMoreCommentsBtnClick);
   }
