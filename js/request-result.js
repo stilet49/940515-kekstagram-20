@@ -16,7 +16,7 @@
   var displayError = function (isReloadPage) {
     isReload = isReloadPage;
 
-    document.body.querySelector('main').appendChild(messageErrorTemplate);
+    mainElement.appendChild(messageErrorTemplate);
     reloadElement.addEventListener('click', onReloadElementClick);
     document.addEventListener('keydown', onMessageErrorContainerEscPress);
   };

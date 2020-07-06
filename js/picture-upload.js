@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_COUNT_HASHTAGS = 5;
+  var HASHTAGS_REGEX = /^#[a-zа-яA-ZА-Я0-9]{1,20}$/;
   var uploadSelectImageForm = document.querySelector('#upload-select-image');
   var effectImagePreview = uploadSelectImageForm.querySelector('.img-upload__preview').querySelector('img');
   var uploadFileElement = uploadSelectImageForm.querySelector('#upload-file');
@@ -10,7 +12,7 @@
 
     var uploadEffectControls = form.querySelector('.img-upload__effects ');
 
-    uploadFileElement.value = '';
+    /* uploadFileElement.value = ''; */
     uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
     effectImagePreview.style = '';
@@ -35,7 +37,7 @@
 
   function validataFormHashtags(form) {
     var hashtags = form.querySelector('.text__hashtags').value.split(' ').sort();
-    var noMoreThanFiveHashtags = hashtags.length <= 5;
+    var noMoreThanFiveHashtags = hashtags.length <= MAX_COUNT_HASHTAGS;
 
     var hasDuplicate = (hashtags.length === 1) ? false : hashtags.some(function (item, index, array) {
       if (!array[index + 1]) {
@@ -46,7 +48,7 @@
     });
 
     var everyHashtagPasses = hashtags.every(function (item) {
-      return /^#[a-zа-яA-ZА-Я0-9]{1,20}$/.test(item);
+      return HASHTAGS_REGEX.test(item);
     });
 
     return noMoreThanFiveHashtags && !hasDuplicate && everyHashtagPasses;
