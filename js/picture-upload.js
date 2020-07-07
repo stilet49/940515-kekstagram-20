@@ -9,13 +9,13 @@
 
   function resetUploadForm(form) {
     var uploadResizeControlsValue = form.querySelector('.scale__control--value');
-
+    var effectLevel = form.querySelector('.img-upload__effect-level');
     var uploadEffectControls = form.querySelector('.img-upload__effects ');
 
     uploadResizeControlsValue.value = '100%';
     effectImagePreview.className = '';
     effectImagePreview.style = '';
-
+    effectLevel.style.display = 'none';
     uploadEffectControls.querySelector('[name=effect]').checked = true;
     form.querySelector('.text__hashtags').value = '';
     form.querySelector('.text__description').value = '';
