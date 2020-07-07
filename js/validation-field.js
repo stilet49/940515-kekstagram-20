@@ -3,7 +3,7 @@
 (function () {
   var MAX_COUNT_HASHTAGS = 5;
   var MAX_LENGTH_HASHTAG = 20;
-  var HASHTAGS_REGEX = /^#[a-zа-яA-ZА-Я0-9]$/;
+  var HASHTAGS_REGEX = /^#[a-zа-яA-ZА-Я0-9]{1,20}$/;
 
   var uploadTextContainer = document.querySelector('.img-upload__text');
 
@@ -25,13 +25,14 @@
         return 'Хеш-тег должен начинаться с "#": ' + hashTags[i];
       }
 
+      if (!HASHTAGS_REGEX.test(hashTags[i])) {
+        return 'Хеш-тег должен состоять только из букв (а-я, А-Я, a-z, A-Z) и цифр(0-9): ' + hashTags[i];
+      }
+
       if (hashTags[i].length > MAX_LENGTH_HASHTAG) {
         return 'Превышена максимальная длина хеш-тега (20 - символов): ' + hashTags[i];
       }
 
-      if (!HASHTAGS_REGEX.test(hashTags[i])) {
-        return 'Хеш-тег должен состоять только из букв (а-я, А-Я, a-z, A-Z) и цифр(0-9): ' + hashTags[i];
-      }
 
       var currentHashTag = hashTags[i].toLowerCase();
 
