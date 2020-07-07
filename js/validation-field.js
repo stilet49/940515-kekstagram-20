@@ -7,9 +7,6 @@
 
   var uploadTextContainer = document.querySelector('.img-upload__text');
 
-  /* Поле ввода комментария к картинке */
-  var textCommentElement = uploadTextContainer.querySelector('.text__description');
-
   /* Валидация хеш-тегов */
   var hashTagInputElement = uploadTextContainer.querySelector('.text__hashtags');
 
@@ -70,8 +67,6 @@
   };
 
   var disableValidationField = function () {
-    hashTagInputElement.value = '';
-    textCommentElement.value = '';
     hashTagInputElement.removeEventListener('input', onHashTagInputElementInput);
   };
 
