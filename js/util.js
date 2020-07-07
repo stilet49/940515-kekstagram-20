@@ -38,11 +38,19 @@
     return Math.max(min, Math.min(value, max));
   };
 
+  var getFilteredArray = function (str, symbol) {
+    return str.split(symbol)
+      .filter(function (it) {
+        return it !== '';
+      });
+  };
+
   window.util = {
     KeyCodes: KeyCodes,
     debounce: debounce,
     shuffleArray: shuffleArray,
-    clamp: clamp
+    clamp: clamp,
+    getFilteredArray: getFilteredArray
   };
 })();
 

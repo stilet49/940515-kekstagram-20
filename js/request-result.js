@@ -5,7 +5,7 @@
 
   var reloadElement = messageErrorTemplate.querySelector('.error__button');
 
-  var messageSuccessTemplate = document.querySelector('#success').content.cloneNode(true);
+  var messageSuccessTemplate = document.querySelector('#success').content.cloneNode(true).querySelector('.success');
 
   var linkElement = messageSuccessTemplate.querySelector('.success__button');
 
