@@ -17,6 +17,7 @@
     effectLevel.style.display = 'none';
     uploadEffectControls.querySelector('[name=effect]').checked = true;
     form.querySelector('.text__hashtags').value = '';
+    form.querySelector('.text__hashtags').style.border = '';
     form.querySelector('.text__description').value = '';
   }
 
