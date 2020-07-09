@@ -17,17 +17,17 @@
 
     for (var i = 0; i < hashTags.length; i++) {
       if (hashTags[i] === '#') {
-        return 'Хеш-тег не может состоять тольк из "#": ' + hashTags[i];
+        return 'Хеш-тег не может состоять только из "#": ' + hashTags[i];
       } else if (hashTags[i][0] !== '#') {
         return 'Хеш-тег должен начинаться с "#": ' + hashTags[i];
       }
 
-      if (!HASHTAGS_REGEX.test(hashTags[i])) {
-        return 'Хеш-тег должен состоять только из букв (а-я, А-Я, a-z, A-Z) и цифр(0-9): ' + hashTags[i];
-      }
-
       if (hashTags[i].length > MAX_LENGTH_HASHTAG) {
         return 'Превышена максимальная длина хеш-тега (20 - символов): ' + hashTags[i];
+      }
+
+      if (!HASHTAGS_REGEX.test(hashTags[i])) {
+        return 'Хеш-тег должен состоять только из букв (а-я, А-Я, a-z, A-Z) и цифр(0-9): ' + hashTags[i];
       }
 
 
